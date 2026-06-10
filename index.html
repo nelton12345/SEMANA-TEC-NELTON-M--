@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doces Mirahy — Tudo do bom é do melhor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary: #6b3a1f;
+      --primary-fg: #f7f0e8;
+      --accent: #c8892a;
+      --background: #faf7f3;
+      --foreground: #1e1612;
+      --card: #fffcf9;
+      --muted: #a09080;
+      --border: #e4d9cc;
+      --secondary: #f0ebe3;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Lato', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--background);
+      color: var(--foreground);
+      min-height: 100vh;
+    }
+
+    /* ========== NAVEGAÇÃO ========== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      background: rgba(250,247,243,0.95);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(228,217,204,0.5);
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo { text-decoration: none; display: flex; flex-direction: column; }
+    .nav-logo-name {
+      font-family: var(--font-heading);
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.02em;
+    }
+    .nav-logo-sub {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+    }
+    .nav-links { display: flex; gap: 1rem; list-style: none; flex-wrap: wrap; }
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+      white-space: nowrap;
+      cursor: pointer;
+      font-weight: 500;
+      padding-bottom: 5px;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s;
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); font-weight: 600; }
+    .nav-links a.active::after { width: 100%; }
+    .nav-cart {
+      background: none; border: none; cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: background .2s;
+      position: relative;
+    }
+    .nav-cart:hover { background: var(--secondary); }
+    .nav-cart svg { width: 20px; height: 20px; stroke: var(--foreground); fill: none; stroke-width: 1.8; }
+    .cart-count {
+      position: absolute; top: -4px; right: -4px;
+      background: var(--accent); color: #fff;
+      border-radius: 50%; width: 18px; height: 18px;
+      font-size: 10px; display: none;
+      align-items: center; justify-content: center; font-weight: 700;
+    }
+    .nav-hamburger {
+      display: none;
+      background: none; border: none; cursor: pointer;
+      padding: 0.5rem; border-radius: 50%;
+    }
+    .nav-hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: var(--foreground); margin: 5px 0;
+      transition: .3s;
+    }
+    .mobile-menu {
+      display: none;
+      background: var(--background);
+      border-top: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+    }
+    .mobile-menu a {
+      display: block;
+      padding: .6rem 0;
+      font-size: .9rem;
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .mobile-menu a:hover { color: var(--accent); padding-left: 0.5rem; }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a.active { color: var(--accent); font-weight: 600; }
+    .mobile-menu.open { display: block; }
+
+    /* ========== BOTÕES ========== */
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .75rem 2rem;
+      border-radius: 9999px;
+      font-size: .875rem;
+      font-family: var(--font-body);
+      letter-spacing: .06em;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: opacity .2s, background .2s;
+    }
+    .btn-accent { background: var(--accent); color: #fff; }
+    .btn-accent:hover { opacity: .88; }
+    .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); }
+    .btn-outline:hover { background: rgba(255,255,255,.12); }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--primary-fg);
+      padding: .75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .btn-add {
+      width: 100%;
+      background: var(--primary);
+      color: var(--primary-fg);
+      border: none;
+      padding: .6rem;
+      border-radius: .5rem;
+      font-size: .8rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-weight: 700;
+      letter-spacing: .06em;
+      transition: opacity .2s;
+    }
+    .btn-add:hover { opacity: .85; }
+
+    /* ========== CARROSSEL ========== */
+    .carousel-container {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    .carousel-slides {
+      position: relative;
+      height: 100vh;
+    }
+    .carousel-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+    .carousel-slide.active { opacity: 1; z-index: 1; }
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .carousel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to right, rgba(0,0,0,.7), rgba(0,0,0,.45), transparent);
+      z-index: 2;
+    }
+    .carousel-content {
+      position: absolute;
+      z-index: 3;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      max-width: 1280px;
+      width: 100%;
+      padding: 0 1.5rem;
+    }
+    .carousel-inner { max-width: 560px; }
+    .carousel-tag {
+      display: block;
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      color: #fbbf24;
+      margin-bottom: 1rem;
+    }
+    .carousel-title {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.08;
+      margin-bottom: 1.5rem;
+    }
+    .carousel-title em { font-style: italic; color: #fbbf24; }
+    .carousel-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 2rem;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+    .carousel-dots {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.75rem;
+      z-index: 10;
+    }
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .carousel-dot.active { background: var(--accent); width: 24px; border-radius: 10px; }
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.2);
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      z-index: 10;
+      color: white;
+      transition: background 0.3s;
+    }
+    .carousel-btn:hover { background: rgba(255,255,255,0.4); }
+    .carousel-btn.prev { left: 1rem; }
+    .carousel-btn.next { right: 1rem; }
+
+    /* ========== FEATURES ========== */
+    .features {
+      padding: 4rem 1.5rem;
+      background: var(--card);
+    }
+    .features-grid {
+      max-width: 900px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem;
+    }
+    .feature { text-align: center; }
+    .feature-icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(200,137,42,.12);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .feature-icon svg { width: 20px; height: 20px; stroke: var(--accent); fill: none; stroke-width: 1.8; }
+    .feature h3 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: .25rem;
+    }
+    .feature p { font-size: .85rem; color: var(--muted); }
+
+    /* ========== SEÇÃO DO VÍDEO ========== */
+    .video-section {
+      padding: 4rem 1.5rem;
+      background: var(--background);
+    }
+    .video-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    .video-container iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+      display: block;
+    }
+
+    /* ========== SEÇÕES ========== */
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-tag {
+      display: block;
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .3em;
+      color: var(--accent);
+      margin-bottom: .75rem;
+    }
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--foreground);
+    }
+    .section-line {
+      width: 48px; height: 2px;
+      background: var(--accent);
+      margin: 1rem auto 0;
+    }
+
+    /* ========== CATEGORIAS ========== */
+    .categories { padding: 5rem 1.5rem; background: var(--background); }
+    .cats-grid {
+      max-width: 1280px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.5rem;
+    }
+    .cat-card { text-decoration: none; display: block; cursor: pointer; }
+    .cat-img-wrap {
+      position: relative;
+      aspect-ratio: 1;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: .75rem;
+    }
+    .cat-img-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform .7s;
+    }
+    .cat-card:hover .cat-img-wrap img { transform: scale(1.1); }
+    .cat-img-wrap::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.18);
+      transition: background .5s;
+    }
+    .cat-card:hover .cat-img-wrap::after { background: rgba(0,0,0,.4); }
+    .cat-name {
+      font-family: var(--font-heading);
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--foreground);
+      text-align: center;
+    }
+    .cat-desc { font-size: .75rem; color: var(--muted); text-align: center; margin-top: .25rem; }
+
+    /* ========== QUOTE ========== */
+    .quote {
+      padding: 5rem 1.5rem;
+      background: var(--primary);
+      color: var(--primary-fg);
+      text-align: center;
+    }
+    .quote blockquote {
+      max-width: 700px; margin: 0 auto;
+      font-family: var(--font-heading);
+      font-size: clamp(1.4rem, 4vw, 2.2rem);
+      font-weight: 700;
+      font-style: italic;
+      line-height: 1.4;
+    }
+    .quote cite {
+      display: block;
+      margin-top: 1.5rem;
+      font-size: .8rem;
+      opacity: .55;
+      font-family: var(--font-body);
+      font-style: normal;
+      letter-spacing: .1em;
+    }
+
+    /* ========== SOBRE ========== */
+    .about {
+      padding: 5rem 1.5rem;
+      background: var(--card);
+    }
+    .about-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-image img {
+      width: 100%;
+      border-radius: 1rem;
+      object-fit: cover;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    .about-content p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    /* ========== PÁGINAS GERAIS ========== */
+    .page-header {
+      background: linear-gradient(135deg, var(--primary) 0%, #8b5a3a 100%);
+      padding: 120px 1.5rem 60px;
+      text-align: center;
+      color: white;
+    }
+    .page-header h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin-bottom: 1rem;
+    }
+    .page-header p {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* ========== FILTROS PRODUTOS ========== */
+    .filters-section {
+      padding: 2rem 1.5rem;
+      background: var(--background);
+      border-bottom: 1px solid var(--border);
+    }
+    .filters-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 0.6rem 1.5rem;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    /* ========== PRODUTOS GRID ========== */
+    .produtos-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      padding: 3rem 1.5rem;
+    }
+    .product-card {
+      background: var(--card);
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .product-info {
+      padding: 1rem;
+    }
+    .product-cat {
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--accent);
+      margin-bottom: .35rem;
+    }
+    .product-name {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--foreground);
+      margin-bottom: .25rem;
+    }
+    .product-peso {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: .75rem;
+    }
+
+    /* ========== BLOG / RECEITAS / CATÁLOGOS ========== */
+    .blog-grid, .receitas-grid, .catalogos-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      padding: 3rem 1.5rem;
+    }
+    .blog-card, .receita-card, .catalogo-card {
+      background: var(--card);
+      border-radius: 1rem;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      transition: transform 0.3s;
+    }
+    .blog-card:hover, .receita-card:hover, .catalogo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.1);
+    }
+    .blog-card img, .receita-card img, .catalogo-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .blog-card-content, .receita-card-content, .catalogo-card-content {
+      padding: 1.5rem;
+    }
+    .blog-date {
+      font-size: 0.7rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .blog-title, .receita-title, .catalogo-title {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin: 0.5rem 0;
+      color: var(--foreground);
+    }
+    .blog-excerpt {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ========== CONTATO ========== */
+    .contato-info {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4rem;
+      padding: 3rem 1.5rem;
+    }
+    .contato-form {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+    }
+    .contato-form h3 {
+      font-family: var(--font-heading);
+      margin-bottom: 1.5rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      font-family: var(--font-body);
+    }
+    .form-group textarea { resize: vertical; min-height: 120px; }
+    .contato-dados {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: 1rem;
+      border: 1px solid var(--border);
+    }
+    .contato-dados h3 {
+      font-family: var(--font-heading);
+      margin-bottom: 1.5rem;
+    }
+    .contato-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      color: var(--muted);
+    }
+    .contato-item svg { width: 20px; height: 20px; stroke: var(--accent); }
+
+    /* ========== ORÇAMENTO ========== */
+    .orcamento-section {
+      padding: 5rem 1.5rem;
+      background: var(--background);
+    }
+    .orcamento-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card);
+      border-radius: 1rem;
+      padding: 2rem;
+      border: 1px solid var(--border);
+    }
+    .btn-submit {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* ========== RODAPÉ ========== */
+    footer {
+      background: var(--primary);
+      color: var(--primary-fg);
+      padding: 4rem 1.5rem 2rem;
+    }
+    .footer-inner {
+      max-width: 1280px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+    .footer-brand h3 {
+      font-family: var(--font-heading);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .footer-brand p { font-size: .85rem; opacity: .75; line-height: 1.7; }
+    .footer-social { display: flex; gap: .75rem; margin-top: 1.5rem; }
+    .footer-social a {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: rgba(247,240,232,.1);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--primary-fg);
+      transition: background .2s;
+    }
+    .footer-social a:hover { background: rgba(247,240,232,.2); }
+    .footer-social svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .footer-nav h4, .footer-contact h4 {
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .footer-nav a {
+      display: block;
+      font-size: .85rem;
+      opacity: .75;
+      color: var(--primary-fg);
+      text-decoration: none;
+      margin-bottom: .75rem;
+      transition: opacity .2s;
+      cursor: pointer;
+    }
+    .footer-nav a:hover { opacity: 1; }
+    .footer-contact-item {
+      display: flex; align-items: center; gap: .75rem;
+      font-size: .85rem; opacity: .75; margin-bottom: .75rem;
+    }
+    .footer-contact-item svg { width: 16px; height: 16px; flex-shrink: 0; stroke: currentColor; fill: none; stroke-width: 1.8; }
+    .footer-bottom {
+      max-width: 1280px; margin: 3rem auto 0;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(247,240,232,.1);
+      text-align: center;
+      font-size: .75rem;
+      opacity: .5;
+    }
+
+    /* ========== CARRINHO ========== */
+    .cart-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.45);
+      z-index: 100;
+    }
+    .cart-overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed; top: 0; right: -420px; bottom: 0;
+      width: 100%; max-width: 400px;
+      background: var(--card);
+      z-index: 101;
+      display: flex; flex-direction: column;
+      transition: right .35s cubic-bezier(.4,0,.2,1);
+      box-shadow: -8px 0 40px rgba(0,0,0,.12);
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-header h2 { font-family: var(--font-heading); font-size: 1.3rem; font-weight: 700; }
+    .cart-close {
+      background: none; border: none; cursor: pointer;
+      padding: .4rem; border-radius: 50%;
+      transition: background .2s;
+    }
+    .cart-close:hover { background: var(--secondary); }
+    .cart-close svg { width: 20px; height: 20px; stroke: var(--foreground); fill: none; stroke-width: 1.8; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+    .cart-empty { text-align: center; padding: 3rem 0; color: var(--muted); font-size: .9rem; }
+    .cart-item {
+      display: flex; gap: 1rem; align-items: center;
+      padding: .75rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item-name { font-size: .9rem; font-weight: 600; color: var(--foreground); }
+    .cart-item-price { font-size: .85rem; color: var(--accent); margin-top: .2rem; }
+    .cart-item-qty { display: flex; align-items: center; gap: .5rem; margin-top: .4rem; }
+    .qty-btn {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--secondary);
+      cursor: pointer;
+      font-size: 1rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--foreground);
+    }
+    .qty-btn:hover { background: var(--border); }
+    .cart-item-remove {
+      background: none; border: none; cursor: pointer;
+      color: var(--muted); font-size: 1.2rem; padding: .3rem;
+    }
+    .cart-item-remove:hover { color: #dc2626; }
+    .cart-footer { padding: 1.25rem 1.5rem; border-top: 1px solid var(--border); }
+    .cart-total {
+      display: flex; justify-content: space-between;
+      margin-bottom: 1rem;
+      font-weight: 700; font-size: 1rem;
+    }
+    .btn-checkout {
+      width: 100%;
+      background: var(--primary);
+      color: var(--primary-fg);
+      border: none;
+      padding: .9rem;
+      border-radius: .75rem;
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity .2s;
+    }
+    .btn-checkout:hover { opacity: .87; }
+
+    /* ========== TOAST ========== */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 200;
+      background: var(--foreground); color: #fff;
+      padding: .75rem 1.25rem;
+      border-radius: .75rem;
+      font-size: .85rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .3s, transform .3s;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ========== ANIMAÇÕES ========== */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== RESPONSIVIDADE ========== */
+    @media (max-width: 1024px) {
+      .cats-grid { grid-template-columns: repeat(3, 1fr); }
+      .produtos-grid { grid-template-columns: repeat(3, 1fr); }
+      .blog-grid, .receitas-grid, .catalogos-grid { grid-template-columns: repeat(2, 1fr); }
+      .about-container { grid-template-columns: 1fr; gap: 2rem; }
+      .contato-info { grid-template-columns: 1fr; }
+      .video-container iframe { height: 400px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: block; }
+      .cats-grid { grid-template-columns: repeat(2, 1fr); }
+      .produtos-grid { grid-template-columns: repeat(2, 1fr); }
+      .blog-grid, .receitas-grid, .catalogos-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .carousel-title { font-size: 2rem; }
+      .carousel-desc { font-size: 0.85rem; }
+      .video-container iframe { height: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" data-page="home">
+      <span class="nav-logo-name">Doces Mirahy</span>
+      <span class="nav-logo-sub">Tudo do bom é do melhor</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" data-page="home">Início</a></li>
+      <li><a href="#" data-page="produtos">Produtos</a></li>
+      <li><a href="#" data-page="quem-somos">Quem Somos</a></li>
+      <li><a href="#" data-page="blog">Blog</a></li>
+      <li><a href="#" data-page="receitas">Receitas</a></li>
+      <li><a href="#" data-page="catalogos">Catálogos</a></li>
+      <li><a href="#" data-page="contato">Contatos</a></li>
+      <li><a href="#" data-page="orcamento">Orçamento</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <button class="nav-cart" id="cartBtn" title="Carrinho">
+        <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span id="cartCount" class="cart-count">0</span>
+      </button>
+      <button class="nav-hamburger" id="hamburgerBtn">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" data-page="home">Início</a>
+    <a href="#" data-page="produtos">Produtos</a>
+    <a href="#" data-page="quem-somos">Quem Somos</a>
+    <a href="#" data-page="blog">Blog</a>
+    <a href="#" data-page="receitas">Receitas</a>
+    <a href="#" data-page="catalogos">Catálogos</a>
+    <a href="#" data-page="contato">Contatos</a>
+    <a href="#" data-page="orcamento">Orçamento</a>
+  </div>
+</nav>
+
+<!-- ==================== PÁGINA INICIAL (HOME COM CARROSSEL) ==================== -->
+<div id="homePage">
+  <div class="carousel-container">
+    <div class="carousel-slides" id="carouselSlides">
+      <div class="carousel-slide active">
+        <img src="img/Gemini_Generated_Image_wrh5nfwrh5nfwrh5.png" alt="Doces Mirahy - Banner 1" />
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+          <div class="carousel-inner">
+            <span class="carousel-tag">Doces Mirahy</span>
+            <h1 class="carousel-title">De Minas Gerais<br><em> para a sua mesa!</em></h1>
+            <p class="carousel-desc">Cada peça é cuidadosamente elaborada com ingredientes nobres, trazendo uma experiência única de sabor e sofisticação.</p>
+            <div class="hero-btns">
+              <a href="#" class="btn btn-accent" data-page="produtos">Ver Produtos</a>
+              <a href="#" class="btn btn-outline" data-page="quem-somos">Nossa História</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/Gemini_Generated_Image_z07knvz07knvz07k.png" alt="Doces Mirahy - Banner 2" />
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+          <div class="carousel-inner">
+            <span class="carousel-tag">Doces Mirahy</span>
+            <h1 class="carousel-title">Artesanal no sabor,<br><em> industrial na </em><br>excelência.</h1>
+            <p class="carousel-desc">O afeto do doce artesanal com o rigor da excelência.</p>
+            <div class="hero-btns">
+              <a href="#" class="btn btn-accent" data-page="produtos">Comprar Agora</a>
+              <a href="#" class="btn btn-outline" data-page="catalogos">Ver Catálogos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide">
+        <img src="img/Gemini_Generated_Image_gde7y6gde7y6gde7.png" alt="Doces Mirahy - Banner 3" />
+        <div class="carousel-overlay"></div>
+        <div class="carousel-content">
+          <div class="carousel-inner">
+            <span class="carousel-tag">Doces Mirahy</span>
+            <h1 class="carousel-title">Da Melhor empresa <br><em> para os </em><br> Melhores clientes</h1>
+            <p class="carousel-desc">Uma parceria de excelência para quem não aceita menos que o extraordinário!</p>
+            <div class="hero-btns">
+              <a href="#" class="btn btn-accent" data-page="produtos">Ver Produtos</a>
+              <a href="#" class="btn btn-outline" data-page="contato">Fale Conosco</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-btn prev" id="prevBtn">❮</button>
+    <button class="carousel-btn next" id="nextBtn">❯</button>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+
+  <section class="features">
+    <div class="features-grid">
+      <div class="feature fade-up"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9"/><path d="M12 8v4l3 3"/></svg></div><h3>Artesanal</h3><p>Feito à mão com carinho e dedicação</p></div>
+      <div class="feature fade-up"><div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><h3>Ingredientes Nobres</h3><p>Matérias-primas selecionadas</p></div>
+      <div class="feature fade-up"><div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div><h3>Entrega Cuidadosa</h3><p>Embalagem especial para todo o Brasil</p></div>
+    </div>
+  </section>
+
+  <div class="video-section fade-up">
+    <div style="text-align: center; margin-bottom: 2rem;"><span class="section-tag">Conheça nosso trabalho</span><h2 class="section-title">Veja como fazemos</h2><div class="section-line"></div></div>
+    <div class="video-container"><iframe width="100%" height="500" src="https://www.youtube.com/embed/fibpUmXtrz4" title="Doces Mirahy" frameborder="0" allowfullscreen></iframe></div>
+  </div>
+
+  <section class="categories">
+    <div class="section-header fade-up"><span class="section-tag">Nossas Especialidades</span><h2 class="section-title">Categorias</h2><div class="section-line"></div></div>
+    <div class="cats-grid">
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_9ge1ek9ge1ek9ge1 (1).png" alt="Baldes" /></div><div class="cat-name">Baldes</div><div class="cat-desc">4,5kg • 9kg</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_1kcl1m1kcl1m1kcl (1).png" alt="Potes" /></div><div class="cat-name">Potes</div><div class="cat-desc">320g • 50g</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_hyt75chyt75chyt7 (1).png" alt="Barras" /></div><div class="cat-name">Barras</div><div class="cat-desc">300g • 30g • 50g • 7kg</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_uaoppnuaoppnuaop (1).png" alt="Cubos" /></div><div class="cat-name">Cubos</div><div class="cat-desc">200g</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_4pntx24pntx24pnt.png" alt="Forneáveis" /></div><div class="cat-name">Forneáveis</div><div class="cat-desc">Balde 9kg</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_2shau42shau42sha (1).png" alt="Latas" /></div><div class="cat-name">Latas</div><div class="cat-desc">10kg • 800g</div></div>
+      <div class="cat-card fade-up" data-page="produtos"><div class="cat-img-wrap"><img src="img/Gemini_Generated_Image_9f98ar9f98ar9f98.png" alt="Diet" /></div><div class="cat-name">Diet</div><div class="cat-desc">200g • 50g</div></div>
+    </div>
+  </section>
+
+  <section class="quote"><blockquote class="fade-up">"Doce é coisa séria. Feito com amor, fica ainda melhor!"<cite>— Família Mirahy</cite></blockquote></section>
+</div>
+
+<!-- ==================== PÁGINA PRODUTOS COM FILTROS ==================== -->
+<div id="produtosPage" style="display: none;">
+  <div class="page-header"><h1>Nossos Produtos</h1><p>Selecionados com cuidado para proporcionar momentos inesquecíveis</p></div>
+  
+  <div class="filters-section">
+    <div class="filters-container">
+      <button class="filter-btn active" data-filter="todos">Todos</button>
+      <button class="filter-btn" data-filter="baldes">Baldes</button>
+      <button class="filter-btn" data-filter="potes">Potes</button>
+      <button class="filter-btn" data-filter="barras">Barras</button>
+      <button class="filter-btn" data-filter="cubos">Cubos</button>
+      <button class="filter-btn" data-filter="forneaveis">Forneáveis</button>
+      <button class="filter-btn" data-filter="latas">Latas</button>
+      <button class="filter-btn" data-filter="diet">Diet</button>
+    </div>
+  </div>
+
+  <div class="produtos-grid" id="produtosGrid">
+    <!-- BALDES (apenas 1 item removido o duplicado) -->
+    <div class="product-card" data-categoria="baldes"><img class="product-img" src="img/Gemini_Generated_Image_4pntx24pntx24pnt.png" alt="Balde"><div class="product-info"><div class="product-cat">Baldes</div><div class="product-name">Doce de Leite com Amendoim Cremoso Caixa 2un</div><div class="product-peso">4,5kg</div><div class="product-price">R$ 89,90</div><button class="btn-add" onclick="addToCart('Doce de Leite com Amendoim Cremoso Caixa 2un 4,5kg', 89.90)">Adicionar</button></div></div>
+
+    <!-- POTES -->
+    <div class="product-card" data-categoria="potes"><img class="product-img" src="img/Gemini_Generated_Image_1kcl1m1kcl1m1kcl (1).png" alt="Pote"><div class="product-info"><div class="product-cat">Potes</div><div class="product-name">Cocada Branca Cremosa Caixa 6un</div><div class="product-peso">320g</div><div class="product-price">R$ 29,90</div><button class="btn-add" onclick="addToCart('Cocada Branca Cremosa Caixa 6un 320g', 29.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="potes"><img class="product-img" src="img/Gemini_Generated_Image_1kcl1m1kcl1m1kcl (1).png" alt="Pote"><div class="product-info"><div class="product-cat">Potes</div><div class="product-name">Cocada Branca Cremosa Caixa 6un</div><div class="product-peso">320g</div><div class="product-price">R$ 29,90</div><button class="btn-add" onclick="addToCart('Cocada Branca Cremosa Caixa 6un 320g', 29.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="potes"><img class="product-img" src="img/Gemini_Generated_Image_1kcl1m1kcl1m1kcl (1).png" alt="Pote"><div class="product-info"><div class="product-cat">Potes</div><div class="product-name">Cocada Branca Cremosa Caixa 6un</div><div class="product-peso">320g</div><div class="product-price">R$ 29,90</div><button class="btn-add" onclick="addToCart('Cocada Branca Cremosa Caixa 6un 320g', 29.90)">Adicionar</button></div></div>
+
+    <!-- BARRAS -->
+    <div class="product-card" data-categoria="barras"><img class="product-img" src="img/Gemini_Generated_Image_hyt75chyt75chyt7 (1).png" alt="Barra"><div class="product-info"><div class="product-cat">Barras</div><div class="product-name">Barra Tradicional</div><div class="product-peso">300g</div><div class="product-price">R$ 15,90</div><button class="btn-add" onclick="addToCart('Barra Tradicional 300g', 15.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="barras"><img class="product-img" src="IMG/Gemini_Generated_Image_hyt75chyt75chyt7.png" alt="Barra"><div class="product-info"><div class="product-cat">Barras</div><div class="product-name">Barra Pequena</div><div class="product-peso">30g</div><div class="product-price">R$ 3,90</div><button class="btn-add" onclick="addToCart('Barra Pequena 30g', 3.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="barras"><img class="product-img" src="IMG/Gemini_Generated_Image_hyt75chyt75chyt7.png" alt="Barra"><div class="product-info"><div class="product-cat">Barras</div><div class="product-name">Barra Média</div><div class="product-peso">50g</div><div class="product-price">R$ 5,90</div><button class="btn-add" onclick="addToCart('Barra Média 50g', 5.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="barras"><img class="product-img" src="IMG/Gemini_Generated_Image_hyt75chyt75chyt7.png" alt="Barra"><div class="product-info"><div class="product-cat">Barras</div><div class="product-name">Barra Forneável</div><div class="product-peso">7kg</div><div class="product-price">R$ 129,90</div><button class="btn-add" onclick="addToCart('Barra Forneável 7kg', 129.90)">Adicionar</button></div></div>
+
+    <!-- CUBOS -->
+    <div class="product-card" data-categoria="cubos"><img class="product-img" src="IMG/Gemini_Generated_Image_uaoppnuaoppnuaop.png" alt="Cubos"><div class="product-info"><div class="product-cat">Cubos</div><div class="product-name">Cubos Sortidos</div><div class="product-peso">200g</div><div class="product-price">R$ 12,90</div><button class="btn-add" onclick="addToCart('Cubos Sortidos 200g', 12.90)">Adicionar</button></div></div>
+
+    <!-- FORNEÁVEIS -->
+    <div class="product-card" data-categoria="forneaveis"><img class="product-img" src="IMG/Gemini_Generated_Image_9ge1ek9ge1ek9ge1.png" alt="Forneável"><div class="product-info"><div class="product-cat">Forneáveis</div><div class="product-name">Balde Forneável</div><div class="product-peso">9kg</div><div class="product-price">R$ 149,90</div><button class="btn-add" onclick="addToCart('Balde Forneável 9kg', 149.90)">Adicionar</button></div></div>
+
+    <!-- LATAS -->
+    <div class="product-card" data-categoria="latas"><img class="product-img" src="IMG/Gemini_Generated_Image_2shau42shau42sha.png" alt="Lata"><div class="product-info"><div class="product-cat">Latas</div><div class="product-name">Lata Especial</div><div class="product-peso">10kg</div><div class="product-price">R$ 89,90</div><button class="btn-add" onclick="addToCart('Lata Especial 10kg', 89.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="latas"><img class="product-img" src="IMG/Gemini_Generated_Image_2shau42shau42sha.png" alt="Lata"><div class="product-info"><div class="product-cat">Latas</div><div class="product-name">Lata Presente</div><div class="product-peso">800g</div><div class="product-price">R$ 39,90</div><button class="btn-add" onclick="addToCart('Lata Presente 800g', 39.90)">Adicionar</button></div></div>
+
+    <!-- DIET -->
+    <div class="product-card" data-categoria="diet"><img class="product-img" src="IMG/Gemini_Generated_Image_rt9p97rt9p97rt9p.png" alt="Diet"><div class="product-info"><div class="product-cat">Diet</div><div class="product-name">Doce Diet</div><div class="product-peso">200g</div><div class="product-price">R$ 14,90</div><button class="btn-add" onclick="addToCart('Doce Diet 200g', 14.90)">Adicionar</button></div></div>
+    <div class="product-card" data-categoria="diet"><img class="product-img" src="IMG/Gemini_Generated_Image_rt9p97rt9p97rt9p.png" alt="Diet"><div class="product-info"><div class="product-cat">Diet</div><div class="product-name">Doce Diet Mini</div><div class="product-peso">50g</div><div class="product-price">R$ 5,90</div><button class="btn-add" onclick="addToCart('Doce Diet Mini 50g', 5.90)">Adicionar</button></div></div>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA QUEM SOMOS ==================== -->
+<div id="quemSomosPage" style="display: none;">
+  <div class="page-header"><h1>Quem Somos</h1><p>Conheça a história da Doces Mirahy</p></div>
+  <section class="about"><div class="about-container"><div class="about-image fade-up"><img src="https://images.pexels.com/photos/6580449/pexels-photo-6580449.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Nossa história"></div><div class="about-content fade-up"><span class="section-tag" style="text-align:left">Nossa História</span><h2 class="section-title" style="text-align:left">Há mais de 20 anos adoçando vidas</h2><div class="section-line" style="margin-left:0"></div><p>A Doces Mirahy nasceu em Minas Gerais, do amor pela tradição e pela vontade de criar momentos especiais através de sabores únicos. Cada receita é desenvolvida com ingredientes selecionados e muito carinho.</p><p>Nossos doces são produzidos de forma artesanal, respeitando as tradições da doçaria mineira com um toque de inovação.</p><p>Trabalhamos apenas com ingredientes de primeira linha, frutas frescas e muito amor em cada detalhe.</p><a href="#" class="btn btn-primary" style="margin-top:1rem;" data-page="produtos">Conheça nossos produtos →</a></div></div></section>
+</div>
+
+<!-- ==================== PÁGINA BLOG ==================== -->
+<div id="blogPage" style="display: none;">
+  <div class="page-header"><h1>Blog</h1><p>Dicas, novidades e inspirações sobre o mundo dos doces</p></div>
+  <div class="blog-grid"><div class="blog-card fade-up"><img src="https://images.pexels.com/photos/6580456/pexels-photo-6580456.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Blog"><div class="blog-card-content"><div class="blog-date">15 de Março, 2026</div><h3 class="blog-title">Os benefícios do doce de leite artesanal</h3><p class="blog-excerpt">Descubra como o doce de leite feito à moda antiga preserva nutrientes e sabor...</p></div></div>
+    <div class="blog-card fade-up"><img src="https://images.pexels.com/photos/6580458/pexels-photo-6580458.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Blog"><div class="blog-card-content"><div class="blog-date">10 de Março, 2026</div><h3 class="blog-title">Como escolher o presente doce perfeito</h3><p class="blog-excerpt">Dicas para acertar na escolha do presente ideal para cada ocasião especial...</p></div></div>
+    <div class="blog-card fade-up"><img src="https://images.pexels.com/photos/6580450/pexels-photo-6580450.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Blog"><div class="blog-card-content"><div class="blog-date">5 de Março, 2026</div><h3 class="blog-title">Conheça o processo de produção artesanal</h3><p class="blog-excerpt">Um passeio pelos bastidores da nossa fábrica e como cada doce é feito à mão...</p></div></div>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA RECEITAS ==================== -->
+<div id="receitasPage" style="display: none;">
+  <div class="page-header"><h1>Receitas</h1><p>Aprenda a fazer delícias em casa com o toque Mirahy</p></div>
+  <div class="receitas-grid"><div class="receita-card fade-up"><img src="https://images.pexels.com/photos/6580456/pexels-photo-6580456.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Receita"><div class="receita-card-content"><div class="blog-date">Fácil | 30min</div><h3 class="receita-title">Brigadeiro Gourmet</h3><p class="blog-excerpt">Ingredientes: leite condensado, chocolate belga, manteiga, granulado especial...</p></div></div>
+    <div class="receita-card fade-up"><img src="https://images.pexels.com/photos/6580458/pexels-photo-6580458.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Receita"><div class="receita-card-content"><div class="blog-date">Médio | 1h</div><h3 class="receita-title">Doce de Leite Caseiro</h3><p class="blog-excerpt">Aprenda a fazer o tradicional doce de leite de pedra...</p></div></div>
+    <div class="receita-card fade-up"><img src="https://images.pexels.com/photos/6580450/pexels-photo-6580450.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Receita"><div class="receita-card-content"><div class="blog-date">Fácil | 20min</div><h3 class="receita-title">Banana Caramelizada</h3><p class="blog-excerpt">Sobremesa simples e sofisticada para ocasiões especiais...</p></div></div>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA CATÁLOGOS ==================== -->
+<div id="catalogosPage" style="display: none;">
+  <div class="page-header"><h1>Catálogos</h1><p>Conheça nossas coleções e edições especiais</p></div>
+  <div class="catalogos-grid"><div class="catalogo-card fade-up"><img src="IMG/Gemini_Generated_Image_9ge1ek9ge1ek9ge1.png" alt="Catálogo"><div class="catalogo-card-content"><h3 class="catalogo-title">Coleção Baldes Especiais</h3><p class="blog-excerpt">Baldes com doces selecionados</p></div></div>
+    <div class="catalogo-card fade-up"><img src="IMG/Gemini_Generated_Image_rt9p97rt9p97rt9p.png" alt="Catálogo"><div class="catalogo-card-content"><h3 class="catalogo-title">Linha Potes Gourmet</h3><p class="blog-excerpt">Potes cremosos e irresistíveis</p></div></div>
+    <div class="catalogo-card fade-up"><img src="IMG/Gemini_Generated_Image_2shau42shau42sha.png" alt="Catálogo"><div class="catalogo-card-content"><h3 class="catalogo-title">Edição Limitada - Latas</h3><p class="blog-excerpt">Latas especiais para presentear</p></div></div>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA CONTATO ==================== -->
+<div id="contatoPage" style="display: none;">
+  <div class="page-header"><h1>Contato</h1><p>Fale conosco, estamos à disposição!</p></div>
+  <div class="contato-info"><div class="contato-form fade-up"><h3>Envie uma mensagem</h3><form id="contatoForm"><div class="form-group"><input type="text" placeholder="Seu nome" required></div><div class="form-group"><input type="email" placeholder="Seu e-mail" required></div><div class="form-group"><input type="tel" placeholder="Seu telefone"></div><div class="form-group"><textarea placeholder="Sua mensagem..."></textarea></div><button type="submit" class="btn-primary" style="width:100%; justify-content: center;">Enviar Mensagem</button></form></div>
+    <div class="contato-dados fade-up"><h3>Informações de Contato</h3><div class="contato-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Rua dos Doces, 123 - Belo Horizonte, MG</span></div><div class="contato-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.28-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><span>(31) 99999-9999</span></div><div class="contato-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><span>contato@docesmirahy.com.br</span></div><div class="contato-item"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>Seg-Sex: 8h às 18h | Sáb: 8h às 12h</span></div></div>
+  </div>
+</div>
+
+<!-- ==================== PÁGINA ORÇAMENTO ==================== -->
+<div id="orcamentoPage" style="display: none;">
+  <div class="page-header"><h1>Orçamento</h1><p>Solicite um orçamento personalizado para sua ocasião especial</p></div>
+  <section class="orcamento-section"><div class="orcamento-container"><form id="orcamentoForm"><div class="form-group"><label>Nome completo</label><input type="text" placeholder="Digite seu nome" required></div><div class="form-group"><label>E-mail</label><input type="email" placeholder="seuemail@exemplo.com" required></div><div class="form-group"><label>Telefone</label><input type="tel" placeholder="(31) 99999-9999" required></div><div class="form-group"><label>Produto de interesse</label><select><option>Baldes</option><option>Potes</option><option>Barras</option><option>Cubos</option><option>Forneáveis</option><option>Latas</option><option>Diet</option></select></div><div class="form-group"><label>Quantidade estimada</label><input type="number" placeholder="Quantidade"></div><div class="form-group"><label>Mensagem / Observações</label><textarea placeholder="Conte-nos mais sobre o que você precisa..."></textarea></div><button type="submit" class="btn-submit">Solicitar Orçamento</button></form></div></section>
+</div>
+
+<!-- ==================== RODAPÉ ==================== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand"><h3>Doces Mirahy</h3><p>Doces artesanais feitos com amor e ingredientes selecionados. Tudo do bom é do melhor!</p><div class="footer-social"><a href="#" title="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a></div></div>
+    <div class="footer-nav"><h4>Navegação</h4><a href="#" data-page="home">Início</a><a href="#" data-page="produtos">Produtos</a><a href="#" data-page="quem-somos">Quem Somos</a><a href="#" data-page="blog">Blog</a><a href="#" data-page="receitas">Receitas</a><a href="#" data-page="catalogos">Catálogos</a><a href="#" data-page="contato">Contatos</a><a href="#" data-page="orcamento">Orçamento</a></div>
+    <div class="footer-contact"><h4>Contato</h4><div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Rua dos Doces, 123 — Belo Horizonte, MG</div><div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.8 19.79 19.79 0 01.01 1.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.28-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>(31) 99999-9999</div><div class="footer-contact-item"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>contato@docesmirahy.com.br</div></div>
+  </div>
+  <div class="footer-bottom">© 2026 Doces Mirahy — Tudo do bom é do melhor. Todos os direitos reservados.</div>
+</footer>
+
+<!-- CARRINHO LATERAL -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-drawer" id="cartDrawer"><div class="cart-header"><h2>Carrinho</h2><button class="cart-close" onclick="closeCart()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div><div class="cart-items" id="cartItems"><p class="cart-empty">Seu carrinho está vazio.</p></div><div class="cart-footer" id="cartFooter" style="display:none"><div class="cart-total"><span>Total</span><span id="cartTotal">R$ 0,00</span></div><button class="btn-checkout" onclick="finalizarPedido()">Finalizar Pedido</button></div></div>
+<div id="toast"></div>
+
+<script>
+  let cart = [];
+
+  function openCart() { document.getElementById('cartDrawer').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); }
+  function closeCart() { document.getElementById('cartDrawer').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); }
+  document.getElementById('cartBtn').addEventListener('click', openCart);
+
+  function addToCart(name, price) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) { existing.qty++; } else { cart.push({ name, price, qty: 1 }); }
+    renderCart();
+    showToast(`"${name}" adicionado ao carrinho!`);
+    openCart();
+  }
+
+  function changeQty(name, delta) {
+    const item = cart.find(i => i.name === name);
+    if (!item) return;
+    item.qty += delta;
+    if (item.qty <= 0) cart = cart.filter(i => i.name !== name);
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    const footer = document.getElementById('cartFooter');
+    const countEl = document.getElementById('cartCount');
+    const total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    countEl.textContent = count;
+    countEl.style.display = count > 0 ? 'flex' : 'none';
+    if (cart.length === 0) { container.innerHTML = '<p class="cart-empty">Seu carrinho está vazio.</p>'; footer.style.display = 'none'; return; }
+    footer.style.display = 'block';
+    document.getElementById('cartTotal').textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
+    container.innerHTML = cart.map(item => `<div class="cart-item"><div style="flex:1"><div class="cart-item-name">${item.name}</div><div class="cart-item-price">R$ ${item.price.toFixed(2).replace('.', ',')}</div><div class="cart-item-qty"><button class="qty-btn" onclick="changeQty('${item.name}', -1)">−</button><span>${item.qty}</span><button class="qty-btn" onclick="changeQty('${item.name}', 1)">+</button></div></div><button class="cart-item-remove" onclick="changeQty('${item.name}', -${item.qty})">✕</button></div>`).join('');
+  }
+
+  function finalizarPedido() { if (cart.length === 0) { showToast('Seu carrinho está vazio!'); return; } showToast('Pedido finalizado! Em breve entraremos em contato.'); cart = []; renderCart(); closeCart(); }
+  function showToast(msg) { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2800); }
+
+  // CARROSSEL AUTOMÁTICO
+  let currentSlide = 0;
+  const slides = document.querySelectorAll('.carousel-slide');
+  const dotsContainer = document.getElementById('carouselDots');
+  let autoPlayInterval;
+
+  function createDots() { slides.forEach((_, index) => { const dot = document.createElement('div'); dot.classList.add('carousel-dot'); if (index === 0) dot.classList.add('active'); dot.addEventListener('click', () => goToSlide(index)); dotsContainer.appendChild(dot); }); }
+  function goToSlide(index) { slides[currentSlide].classList.remove('active'); document.querySelectorAll('.carousel-dot')[currentSlide]?.classList.remove('active'); currentSlide = (index + slides.length) % slides.length; slides[currentSlide].classList.add('active'); document.querySelectorAll('.carousel-dot')[currentSlide]?.classList.add('active'); resetAutoPlay(); }
+  function nextSlide() { goToSlide(currentSlide + 1); }
+  function prevSlide() { goToSlide(currentSlide - 1); }
+  function startAutoPlay() { autoPlayInterval = setInterval(nextSlide, 5000); }
+  function resetAutoPlay() { clearInterval(autoPlayInterval); startAutoPlay(); }
+  if (slides.length > 0) { createDots(); startAutoPlay(); document.getElementById('prevBtn')?.addEventListener('click', prevSlide); document.getElementById('nextBtn')?.addEventListener('click', nextSlide); }
+
+  // Navegação entre páginas
+  function showPage(page) {
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('produtosPage').style.display = 'none';
+    document.getElementById('quemSomosPage').style.display = 'none';
+    document.getElementById('blogPage').style.display = 'none';
+    document.getElementById('receitasPage').style.display = 'none';
+    document.getElementById('catalogosPage').style.display = 'none';
+    document.getElementById('contatoPage').style.display = 'none';
+    document.getElementById('orcamentoPage').style.display = 'none';
+    if (page === 'home') document.getElementById('homePage').style.display = 'block';
+    else if (page === 'produtos') document.getElementById('produtosPage').style.display = 'block';
+    else if (page === 'quem-somos') document.getElementById('quemSomosPage').style.display = 'block';
+    else if (page === 'blog') document.getElementById('blogPage').style.display = 'block';
+    else if (page === 'receitas') document.getElementById('receitasPage').style.display = 'block';
+    else if (page === 'catalogos') document.getElementById('catalogosPage').style.display = 'block';
+    else if (page === 'contato') document.getElementById('contatoPage').style.display = 'block';
+    else if (page === 'orcamento') document.getElementById('orcamentoPage').style.display = 'block';
+    document.querySelectorAll('.nav-links a, .mobile-menu a, .footer-nav a').forEach(link => { if (link.getAttribute('data-page') === page) link.classList.add('active'); else link.classList.remove('active'); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('[data-page]').forEach(el => { el.addEventListener('click', (e) => { e.preventDefault(); const page = el.getAttribute('data-page'); showPage(page); }); });
+
+  // FILTROS DOS PRODUTOS
+  function aplicarFiltros() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const produtos = document.querySelectorAll('.product-card');
+    
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filtro = btn.getAttribute('data-filter');
+        
+        produtos.forEach(produto => {
+          if (filtro === 'todos' || produto.getAttribute('data-categoria') === filtro) {
+            produto.style.display = 'block';
+            setTimeout(() => { produto.style.opacity = '1'; produto.style.transform = 'scale(1)'; }, 10);
+          } else {
+            produto.style.opacity = '0';
+            produto.style.transform = 'scale(0.8)';
+            setTimeout(() => { produto.style.display = 'none'; }, 200);
+          }
+        });
+      });
+    });
+  }
+
+  // Animações
+  const observer = new IntersectionObserver((entries) => { entries.forEach((e, idx) => { if (e.isIntersecting) { setTimeout(() => e.target.classList.add('visible'), idx * 80); observer.unobserve(e.target); } }); }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  showPage('home');
+  document.getElementById('hamburgerBtn').addEventListener('click', () => { document.getElementById('mobileMenu').classList.toggle('open'); });
+  setTimeout(aplicarFiltros, 500);
+
+  // Forms
+  document.getElementById('contatoForm')?.addEventListener('submit', (e) => { e.preventDefault(); showToast('Mensagem enviada! Responderemos em breve.'); e.target.reset(); });
+  document.getElementById('orcamentoForm')?.addEventListener('submit', (e) => { e.preventDefault(); showToast('Solicitação enviada! Entraremos em contato em breve.'); e.target.reset(); });
+</script>
+</body>
+</html>
